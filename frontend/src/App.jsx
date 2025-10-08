@@ -126,11 +126,11 @@ function App() {
                   <p>Enter a prompt below to start a debate between two AI models:</p>
                   <ul>
                     <li>
-                      <strong>PROPOSER ({modelConfig?.proposerProvider || 'Model 1'}):</strong> Creates and refines drafts
+                      <strong>PROPOSER:</strong> Creates and refines drafts
                       {modelConfig?.proposerModel && <div className="model-name">{modelConfig.proposerModel}</div>}
                     </li>
                     <li>
-                      <strong>CHALLENGER ({modelConfig?.challengerProvider || 'Model 2'}):</strong> Provides constructive criticism
+                      <strong>CHALLENGER:</strong> Provides constructive criticism
                       {modelConfig?.challengerModel && <div className="model-name">{modelConfig.challengerModel}</div>}
                     </li>
                   </ul>
