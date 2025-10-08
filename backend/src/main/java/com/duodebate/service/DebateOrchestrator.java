@@ -31,14 +31,18 @@ public class DebateOrchestrator {
     private final ObjectMapper objectMapper;
     private final String proposerModel;
     private final String challengerModel;
+    private final String proposerProvider;
+    private final String challengerProvider;
 
     public DebateOrchestrator(
             OpenAiChatModel openAiChatModel,
             GoogleGenAiChatModel geminiChatModel,
             @Value("classpath:prompts/proposer-system.txt") Resource proposerPrompt,
             @Value("classpath:prompts/challenger-system.txt") Resource challengerPrompt,
-            @Value("${spring.ai.openai.chat.options.model}") String proposerModel,
-            @Value("${spring.ai.google.genai.chat.options.model}") String challengerModel,
+            @Value("${debate.proposer.model}") String proposerModel,
+            @Value("${debate.challenger.model}") String challengerModel,
+            @Value("${debate.proposer.provider}") String proposerProvider,
+            @Value("${debate.challenger.provider}") String challengerProvider,
             ObjectMapper objectMapper) throws IOException {
 
         this.proposerSystemPrompt = proposerPrompt.getContentAsString(StandardCharsets.UTF_8);
@@ -46,6 +50,8 @@ public class DebateOrchestrator {
         this.objectMapper = objectMapper;
         this.proposerModel = proposerModel;
         this.challengerModel = challengerModel;
+        this.proposerProvider = proposerProvider;
+        this.challengerProvider = challengerProvider;
 
         // OpenAI for PROPOSER
         this.proposerClient = ChatClient.builder(openAiChatModel)
@@ -57,16 +63,26 @@ public class DebateOrchestrator {
                 .defaultSystem(this.challengerSystemPrompt)
                 .build();
 
-        log.info("DebateOrchestrator initialized with OpenAI {} (PROPOSER) and Google Gemini {} (CHALLENGER)",
-                proposerModel, challengerModel);
+        log.info("DebateOrchestrator initialized:");
+        log.info("  PROPOSER: {} - {}", capitalizeProvider(proposerProvider), proposerModel);
+        log.info("  CHALLENGER: {} - {}", capitalizeProvider(challengerProvider), challengerModel);
+    }
+
+    private String capitalizeProvider(String provider) {
+        return switch(provider.toLowerCase()) {
+            case "openai" -> "OpenAI";
+            case "gemini" -> "Google Gemini";
+            case "ollama" -> "Ollama";
+            default -> provider;
+        };
     }
 
     public java.util.Map<String, String> getModelConfig() {
         return java.util.Map.of(
             "proposerModel", proposerModel,
             "challengerModel", challengerModel,
-            "proposerProvider", "OpenAI",
-            "challengerProvider", "Google Gemini"
+            "proposerProvider", capitalizeProvider(proposerProvider),
+            "challengerProvider", capitalizeProvider(challengerProvider)
         );
     }
 
