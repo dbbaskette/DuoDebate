@@ -33,7 +33,7 @@ DuoDebate orchestrates **intelligent debates** between two AI models that work t
 
 | 🤖 **PROPOSER** | 🎯 **CHALLENGER** |
 |:---:|:---:|
-| **OpenAI GPT-4** | **Google Gemini** |
+| **OpenAI** | **Google Gemini** |
 | Creates and refines drafts | Provides constructive criticism |
 | Iterates based on feedback | Asks probing questions |
 | Marks completion when ready | Ensures quality and completeness |
@@ -71,7 +71,7 @@ Watch as they iterate back and forth, each response building on the last, until 
 <td width="50%">
 
 ### 🤖 **Dual AI Models**
-- **OpenAI GPT-4** as the creative proposer with citations
+- **OpenAI** as the creative proposer with citations
 - **Google Gemini** as the critical challenger
 - **Configurable Models** via environment variables
 - **Configurable Iterations** (1-20 rounds)
@@ -103,7 +103,6 @@ Watch as they iterate back and forth, each response building on the last, until 
                                             │                           │
                                     ┌───────▼──────┐           ┌───────▼──────┐
                                     │  OpenAI API  │           │  Gemini API  │
-                                    │   (GPT-4)    │           │  (Flash 2.0) │
                                     │  PROPOSER    │           │  CHALLENGER  │
                                     └──────────────┘           └──────────────┘
                                             │                           │
@@ -138,9 +137,9 @@ cp secrets.yml.example secrets.yml
 Your `secrets.yml` should look like:
 ```yaml
 OPENAI_API_KEY: "sk-proj-your-key-here"
-OPENAI_CHAT_MODEL: "gpt-4-turbo-preview"
+OPENAI_CHAT_MODEL: "gpt-5-nano"  # or your preferred OpenAI model
 GEMINI_API_KEY: "your-gemini-key-here"
-GEMINI_CHAT_MODEL: "gemini-2.0-flash-exp"
+GEMINI_CHAT_MODEL: "gemini-2.5-flash"  # or your preferred Gemini model
 SECURITY_ENABLED: "false"  # Set to "true" to enable password protection
 SECURITY_USERNAME: "admin"
 SECURITY_PASSWORD: "your-password-here"
@@ -176,143 +175,6 @@ Open [http://localhost:5173](http://localhost:5173) and try:
 - *"Create a product launch strategy for an AI coding assistant"*
 
 ## 💻 Tech Stack
-
-### 🎨 Frontend Technologies
-
-<table>
-<tr>
-<th width="30%">Technology</th>
-<th width="70%">Purpose & Benefits</th>
-</tr>
-
-<tr>
-<td>
-
-**⚛️ React 19.1.1**
-
-</td>
-<td>
-
-The latest React with improved performance and new features
-- **Component-Based Architecture** for reusable UI elements
-- **Hooks API** for state management (`useState`, `useEffect`, `useRef`)
-- **Virtual DOM** for efficient updates
-- **React 19 improvements** in concurrent rendering
-
-</td>
-</tr>
-
-<tr>
-<td>
-
-**⚡ Vite 7.1.2**
-
-</td>
-<td>
-
-Next-generation frontend tooling
-- **Lightning-Fast HMR** - see changes instantly without refresh
-- **Optimized Build** - efficient production bundles
-- **ES Modules** - native browser module support
-- **Plugin Ecosystem** - React Fast Refresh, JSX transform
-
-</td>
-</tr>
-
-<tr>
-<td>
-
-**🎨 Pure CSS3**
-
-</td>
-<td>
-
-Modern CSS features for stunning visuals
-- **Glassmorphism** - `backdrop-filter: blur()` for translucent effects
-- **CSS Grid & Flexbox** - responsive layouts
-- **CSS Animations** - smooth transitions and loading states
-- **CSS Variables** - theming and consistent colors
-- **Gradient Animations** - animated liquid metal backgrounds
-
-</td>
-</tr>
-
-<tr>
-<td>
-
-**📡 Fetch API + SSE**
-
-</td>
-<td>
-
-Native browser APIs for real-time communication
-- **Server-Sent Events** - streaming debate updates in real-time
-- **EventSource** - automatic reconnection and event handling
-- **Fetch API** - modern promise-based HTTP requests
-- **No external dependencies** - lean and performant
-
-</td>
-</tr>
-
-<tr>
-<td>
-
-**🧩 Component Architecture**
-
-</td>
-<td>
-
-Modular, reusable component design
-- **`<ChatBubble />`** - Message display with role-based styling
-- **`<GlassCard />`** - Reusable glassmorphic container
-- **`<Toolbar />`** - Input interface with validation
-- **`<PasswordPrompt />`** - Optional authentication UI
-- **Separation of concerns** - styles in dedicated CSS files
-
-</td>
-</tr>
-
-<tr>
-<td>
-
-**🎯 ESLint + Plugins**
-
-</td>
-<td>
-
-Code quality and best practices enforcement
-- **`eslint-plugin-react-hooks`** - ensures proper hook usage
-- **`eslint-plugin-react-refresh`** - HMR compatibility checks
-- **Modern ES2022+** syntax support
-- **Consistent code style** across the project
-
-</td>
-</tr>
-
-</table>
-
-### 🔧 Frontend Architecture Highlights
-
-```javascript
-┌─────────────────────────────────────────────────────┐
-│                     App.jsx                         │
-│  • Main application state management                │
-│  • Server-Sent Events (SSE) consumption            │
-│  • Auto-scroll to latest messages                  │
-│  • Loading & error state handling                  │
-└─────────────────────────────────────────────────────┘
-                          │
-          ┌───────────────┼───────────────┐
-          │               │               │
-┌─────────▼────────┐ ┌───▼────────┐ ┌───▼──────────┐
-│   ChatBubble     │ │  GlassCard │ │   Toolbar    │
-│                  │ │            │ │              │
-│ • Role colors    │ │ • Backdrop │ │ • Input form │
-│ • Markdown style │ │   blur     │ │ • Validation │
-│ • Status badges  │ │ • Gradient │ │ • Max rounds │
-│ • Iteration #    │ │   borders  │ │ • Submit     │
-└──────────────────┘ └────────────┘ └──────────────┘
-```
 
 ### 🚀 Backend Technologies
 
@@ -380,31 +242,160 @@ Start a debate between AI models with Server-Sent Events streaming.
 
 Health check endpoint returning `{"status": "UP"}`.
 
-## 🎨 UI Styling Features
+## 🎨 UI Design & Libraries
 
-### Glassmorphism Design
+DuoDebate features a modern, glassmorphic UI built with zero external CSS frameworks - just React, Vite, and pure CSS3.
+
+### 🎭 Design Philosophy
+
+**Glassmorphism** - A modern design trend featuring translucent, frosted-glass effects that create depth and visual hierarchy while maintaining readability.
+
+**Liquid Metal Background** - Animated gradient backgrounds that shift smoothly, creating a dynamic, engaging experience.
+
+**Role-Based Visual Identity** - Each AI model has distinct colors and styling to make debates easy to follow.
+
+### 📚 Frontend Libraries
+
+<table>
+<tr>
+<th width="25%">Library</th>
+<th width="15%">Version</th>
+<th width="60%">Purpose</th>
+</tr>
+
+<tr>
+<td><strong>React</strong></td>
+<td>19.1.1</td>
+<td>Core UI framework with hooks for state management and side effects</td>
+</tr>
+
+<tr>
+<td><strong>Vite</strong></td>
+<td>7.1.2</td>
+<td>Lightning-fast dev server with HMR and optimized production builds</td>
+</tr>
+
+<tr>
+<td><strong>react-markdown</strong></td>
+<td>Latest</td>
+<td>GitHub-flavored markdown rendering for debate outputs</td>
+</tr>
+
+<tr>
+<td><strong>remark-gfm</strong></td>
+<td>Latest</td>
+<td>Markdown tables, strikethrough, task lists, and other GFM features</td>
+</tr>
+
+<tr>
+<td><strong>Pure CSS3</strong></td>
+<td>-</td>
+<td>Zero external CSS frameworks - custom glassmorphism and animations</td>
+</tr>
+
+<tr>
+<td><strong>Fetch API + SSE</strong></td>
+<td>Native</td>
+<td>Browser-native Server-Sent Events for real-time streaming</td>
+</tr>
+
+</table>
+
+### 🎨 Visual Design System
+
+#### Color Palette
 
 ```css
-/* Translucent glass effect */
-background: rgba(255, 255, 255, 0.1);
-backdrop-filter: blur(10px);
-border: 1px solid rgba(255, 255, 255, 0.2);
-box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
+/* PROPOSER - Blue/Purple Gradient */
+.proposer {
+  background: linear-gradient(135deg, #3b82f6 0%, #8b5cf6 100%);
+}
+
+/* CHALLENGER - Pink/Orange Gradient */
+.challenger {
+  background: linear-gradient(135deg, #ec4899 0%, #f97316 100%);
+}
+
+/* Primary Gradient - App Background */
+.background {
+  background: linear-gradient(135deg, #0f0c29, #302b63, #24243e);
+  animation: gradientShift 15s ease infinite;
+}
 ```
 
-### Animated Gradients
+#### Glassmorphism Effects
 
 ```css
-/* Liquid metal background */
-background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-animation: gradient-shift 15s ease infinite;
+/* Glass Card Component */
+.glass-card {
+  background: rgba(255, 255, 255, 0.1);
+  backdrop-filter: blur(10px);
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
+  border-radius: 20px;
+}
+
+/* Chat Bubbles */
+.chat-bubble {
+  background: rgba(255, 255, 255, 0.05);
+  backdrop-filter: blur(10px);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+}
 ```
 
-### Role-Based Colors
+#### Typography & Spacing
 
-- **PROPOSER**: Blue gradient (`#3b82f6` → `#8b5cf6`)
-- **CHALLENGER**: Pink gradient (`#ec4899` → `#f97316`)
-- **Final Draft**: Purple gradient with success badge
+- **Headings**: System font stack with gradient text effects
+- **Body Text**: `rgba(255, 255, 255, 0.9)` for high contrast on dark backgrounds
+- **Spacing**: Consistent 1rem base with 1.5-2rem gaps between sections
+- **Line Height**: 1.6-1.8 for optimal readability
+
+### 🧩 Component Architecture
+
+```
+App.jsx (Main Container)
+├── State Management (React hooks)
+├── SSE Event Handling
+└── Auto-scroll Logic
+
+├─ GlassCard (Reusable Container)
+│  ├── Glassmorphic backdrop-filter
+│  ├── Border gradients
+│  └── Responsive padding
+
+├─ ChatBubble (Message Display)
+│  ├── MarkdownRenderer (Content)
+│  ├── Role badges (PROPOSER/CHALLENGER)
+│  ├── Model labels (OpenAI/Gemini)
+│  └── Iteration counter
+
+├─ MarkdownRenderer (Content Formatter)
+│  ├── react-markdown (Parser)
+│  ├── remark-gfm (Tables support)
+│  └── Custom table styling
+
+└─ Toolbar (Input Interface)
+   ├── Prompt textarea with validation
+   ├── Max iterations selector
+   ├── Submit button with loading state
+   └── Copy/Download actions
+```
+
+### ✨ Interactive Features
+
+- **📋 Copy to Clipboard** - One-click copy of final drafts with visual feedback
+- **⬇️ Download as Markdown** - Export debates as `.md` files with timestamp
+- **📚 Source Downloads** - Separate download for citation bibliography
+- **🎯 Auto-scroll** - Automatically follows the debate as it progresses
+- **💫 Loading States** - Animated typing indicators during AI responses
+- **🎨 Hover Effects** - Smooth transitions on buttons and cards
+
+### 📱 Responsive Design
+
+- **Desktop**: Full-width layout with optimal 1200px max-width
+- **Tablet**: Flexible grid system adapts to smaller screens
+- **Mobile**: Single-column layout with horizontal scroll for tables
+- **Touch-friendly**: Adequate button sizes and spacing for mobile interaction
 
 ## 📁 Project Structure
 
@@ -497,14 +488,10 @@ Edit `secrets.yml` (or environment variables):
 
 ```yaml
 # OpenAI Model Configuration
-OPENAI_CHAT_MODEL: "gpt-4-turbo-preview"  # or "gpt-3.5-turbo" for faster/cheaper
-# OPENAI_CHAT_MODEL: "gpt-4o"            # or GPT-4o for latest
+OPENAI_CHAT_MODEL: "gpt-5-nano"  # Use any available OpenAI model
 
 # Gemini Model Configuration
-GEMINI_CHAT_MODEL: "gemini-2.0-flash-exp"  # Current default (experimental)
-# GEMINI_CHAT_MODEL: "gemini-1.5-pro"     # Production, most capable
-# GEMINI_CHAT_MODEL: "gemini-1.5-flash"   # Production, faster
-# GEMINI_CHAT_MODEL: "gemini-2.0-flash-thinking-exp"  # With reasoning
+GEMINI_CHAT_MODEL: "gemini-2.5-flash"  # Use any available Gemini model
 
 # Temperature (in application.properties)
 spring.ai.openai.chat.options.temperature=0.7
