@@ -29,17 +29,23 @@ public class DebateOrchestrator {
     private final String proposerSystemPrompt;
     private final String challengerSystemPrompt;
     private final ObjectMapper objectMapper;
+    private final String proposerModel;
+    private final String challengerModel;
 
     public DebateOrchestrator(
             OpenAiChatModel openAiChatModel,
             GoogleGenAiChatModel geminiChatModel,
             @Value("classpath:prompts/proposer-system.txt") Resource proposerPrompt,
             @Value("classpath:prompts/challenger-system.txt") Resource challengerPrompt,
+            @Value("${spring.ai.openai.chat.options.model}") String proposerModel,
+            @Value("${spring.ai.google.genai.chat.options.model}") String challengerModel,
             ObjectMapper objectMapper) throws IOException {
 
         this.proposerSystemPrompt = proposerPrompt.getContentAsString(StandardCharsets.UTF_8);
         this.challengerSystemPrompt = challengerPrompt.getContentAsString(StandardCharsets.UTF_8);
         this.objectMapper = objectMapper;
+        this.proposerModel = proposerModel;
+        this.challengerModel = challengerModel;
 
         // OpenAI for PROPOSER
         this.proposerClient = ChatClient.builder(openAiChatModel)
@@ -51,7 +57,17 @@ public class DebateOrchestrator {
                 .defaultSystem(this.challengerSystemPrompt)
                 .build();
 
-        log.info("DebateOrchestrator initialized with OpenAI (PROPOSER) and Google Gemini (CHALLENGER)");
+        log.info("DebateOrchestrator initialized with OpenAI {} (PROPOSER) and Google Gemini {} (CHALLENGER)",
+                proposerModel, challengerModel);
+    }
+
+    public java.util.Map<String, String> getModelConfig() {
+        return java.util.Map.of(
+            "proposerModel", proposerModel,
+            "challengerModel", challengerModel,
+            "proposerProvider", "OpenAI",
+            "challengerProvider", "Google Gemini"
+        );
     }
 
     public DebateResponse conductDebate(DebateRequest request) {

@@ -3,7 +3,7 @@ import ChatBubble from './components/ChatBubble';
 import GlassCard from './components/GlassCard';
 import Toolbar from './components/Toolbar';
 import MarkdownRenderer from './components/MarkdownRenderer';
-import { conductDebateStream, checkHealth } from './api/debateApi';
+import { conductDebateStream, checkHealth, getConfig } from './api/debateApi';
 import './App.css';
 
 function App() {
@@ -14,11 +14,13 @@ function App() {
   const [sources, setSources] = useState([]);
   const [debateStatus, setDebateStatus] = useState('');
   const [isHealthy, setIsHealthy] = useState(true);
+  const [modelConfig, setModelConfig] = useState(null);
   const transcriptEndRef = useRef(null);
 
   useEffect(() => {
-    // Check API health on mount
+    // Check API health and fetch config on mount
     checkHealth().then(setIsHealthy);
+    getConfig().then(setModelConfig);
   }, []);
 
   useEffect(() => {
@@ -123,8 +125,14 @@ function App() {
                   <h2>Welcome to DuoDebate</h2>
                   <p>Enter a prompt below to start a debate between two AI models:</p>
                   <ul>
-                    <li><strong>PROPOSER (OpenAI GPT-4):</strong> Creates and refines drafts</li>
-                    <li><strong>CHALLENGER (Google Gemini):</strong> Provides constructive criticism</li>
+                    <li>
+                      <strong>PROPOSER ({modelConfig?.proposerProvider || 'Model 1'}):</strong> Creates and refines drafts
+                      {modelConfig?.proposerModel && <div className="model-name">{modelConfig.proposerModel}</div>}
+                    </li>
+                    <li>
+                      <strong>CHALLENGER ({modelConfig?.challengerProvider || 'Model 2'}):</strong> Provides constructive criticism
+                      {modelConfig?.challengerModel && <div className="model-name">{modelConfig.challengerModel}</div>}
+                    </li>
                   </ul>
                   <p className="welcome-hint">
                     Try: "Outline a blog post on AI in technical marketing"

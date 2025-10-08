@@ -70,4 +70,9 @@ public class DebateController {
     public ResponseEntity<String> health() {
         return ResponseEntity.ok("DuoDebate API is running");
     }
+
+    @GetMapping("/config")
+    public ResponseEntity<?> getConfig() {
+        return ResponseEntity.ok(debateOrchestrator.getModelConfig());
+    }
 }
