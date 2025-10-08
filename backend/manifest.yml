@@ -1,0 +1,13 @@
+---
+applications:
+- name: duodebate-backend
+  memory: 1G
+  instances: 1
+  path: target/duodebate-backend-1.0.0-SNAPSHOT.jar
+  buildpacks:
+    - tanzu-buildpacks/java
+  env:
+    JBP_CONFIG_OPEN_JDK_JRE: '{ jre: { version: 21.+ } }'
+    SPRING_PROFILES_ACTIVE: cloud
+  services:
+    # Add any required services here (e.g., config server, service registry)

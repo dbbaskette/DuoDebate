@@ -1,0 +1,46 @@
+# Local development environment
+.env
+
+# Cloud Foundry secrets (NEVER commit)
+secrets.yml
+
+# Backend (Maven/Spring Boot)
+backend/target/
+backend/.mvn/wrapper/maven-wrapper.jar
+backend/.idea/
+backend/*.iml
+backend/.DS_Store
+backend/.vscode/
+
+# Frontend (Node/React)
+frontend/node_modules/
+frontend/dist/
+frontend/build/
+frontend/.vite/
+frontend/.DS_Store
+frontend/.vscode/
+frontend/*.log
+frontend/.eslintcache
+
+# IDE specific
+.idea/
+*.iml
+*.ipr
+*.iws
+.vscode/
+*.swp
+*.swo
+*~
+
+# OS specific
+.DS_Store
+Thumbs.db
+
+# Logs
+*.log
+logs/
+!backend/logs/.gitkeep
+
+# Temporary files
+*.tmp
+*.temp

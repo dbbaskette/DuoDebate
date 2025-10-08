@@ -1,0 +1,13 @@
+---
+applications:
+- name: duodebate-frontend
+  memory: 128M
+  instances: 1
+  path: dist
+  buildpacks:
+    - staticfile_buildpack
+  env:
+    # You'll need to set these environment variables after pushing
+    # cf set-env duodebate-frontend VITE_API_BASE_URL https://your-backend-url.apps.yourplatform.com
+    # cf set-env duodebate-frontend VITE_SITE_PASSWORD your-password-here
+    # cf restage duodebate-frontend

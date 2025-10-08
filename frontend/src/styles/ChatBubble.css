@@ -1,0 +1,131 @@
+.chat-bubble-container {
+  display: flex;
+  margin: 1rem 0;
+  animation: slideIn 0.3s ease-out;
+}
+
+@keyframes slideIn {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.chat-bubble-container.proposer {
+  justify-content: flex-start;
+}
+
+.chat-bubble-container.challenger {
+  justify-content: flex-end;
+}
+
+.chat-bubble {
+  max-width: 75%;
+  padding: 1.5rem;
+  border-radius: 20px;
+  backdrop-filter: blur(12px);
+  box-shadow:
+    0 8px 32px rgba(0, 0, 0, 0.3),
+    inset 0 1px 0 rgba(255, 255, 255, 0.1);
+  position: relative;
+  overflow: hidden;
+}
+
+.chat-bubble::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: linear-gradient(135deg, rgba(255, 255, 255, 0.1) 0%, rgba(255, 255, 255, 0.05) 100%);
+  pointer-events: none;
+}
+
+.chat-bubble.proposer {
+  background: rgba(102, 126, 234, 0.2);
+  border: 1px solid rgba(102, 126, 234, 0.3);
+  border-left: 4px solid #667eea;
+}
+
+.chat-bubble.challenger {
+  background: rgba(234, 102, 165, 0.2);
+  border: 1px solid rgba(234, 102, 165, 0.3);
+  border-right: 4px solid #ea66a5;
+}
+
+.bubble-header {
+  display: flex;
+  gap: 0.75rem;
+  margin-bottom: 1rem;
+  flex-wrap: wrap;
+}
+
+.role-badge {
+  padding: 0.4rem 0.8rem;
+  border-radius: 12px;
+  font-size: 0.75rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+.proposer .role-badge {
+  background: rgba(102, 126, 234, 0.3);
+  color: #a8b7ff;
+  border: 1px solid rgba(102, 126, 234, 0.5);
+}
+
+.challenger .role-badge {
+  background: rgba(234, 102, 165, 0.3);
+  color: #ffb3d9;
+  border: 1px solid rgba(234, 102, 165, 0.5);
+}
+
+.model-badge {
+  padding: 0.4rem 0.8rem;
+  border-radius: 12px;
+  font-size: 0.7rem;
+  font-weight: 500;
+  background: rgba(255, 255, 255, 0.1);
+  color: rgba(255, 255, 255, 0.7);
+  border: 1px solid rgba(255, 255, 255, 0.2);
+}
+
+.iteration-badge {
+  padding: 0.4rem 0.8rem;
+  border-radius: 12px;
+  font-size: 0.7rem;
+  font-weight: 500;
+  background: rgba(255, 255, 255, 0.05);
+  color: rgba(255, 255, 255, 0.6);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.bubble-content {
+  color: rgba(255, 255, 255, 0.95);
+  font-size: 1rem;
+  line-height: 1.7;
+  white-space: pre-wrap;
+  word-wrap: break-word;
+  position: relative;
+  z-index: 1;
+}
+
+.chat-bubble:hover {
+  transform: translateY(-2px);
+  box-shadow:
+    0 12px 40px rgba(0, 0, 0, 0.4),
+    inset 0 1px 0 rgba(255, 255, 255, 0.2);
+  transition: all 0.3s ease;
+}
+
+@media (max-width: 768px) {
+  .chat-bubble {
+    max-width: 90%;
+  }
+}
